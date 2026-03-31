@@ -1,9 +1,9 @@
 {
   "name": "@sriyank/pacsec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight npm supply chain security guard",
   "bin": {
-    "pacsec": "./bin/pacsec.js"
+    "pacsec": "bin/pacsec.js"
   },
   "main": "./dist/index.js",
   "files": [
