@@ -1,5 +1,5 @@
 {
-  "name": "pacsec",
+  "name": "@sriyank/pacsec",
   "version": "1.0.0",
   "description": "Lightweight npm supply chain security guard",
   "bin": {
