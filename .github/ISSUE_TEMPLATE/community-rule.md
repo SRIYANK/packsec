@@ -15,8 +15,8 @@ labels: community-rule
 ## Evidence
 <!-- Link to advisory, analysis, or explanation -->
 
-## pacsec scan output
-<!-- Paste the output of: npx pacsec <package> --json -->
+## packsec scan output
+<!-- Paste the output of: npx packsec <package> --json -->
 ```json
 
 ```

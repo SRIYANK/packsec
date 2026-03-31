@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-03-31T00:00:00Z",
-  "description": "Community-maintained allow/deny lists for pacsec. Submit PRs to update.",
+  "description": "Community-maintained allow/deny lists for packsec. Submit PRs to update.",
   "allowList": [],
   "denyList": []
 }

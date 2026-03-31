@@ -1,6 +1,6 @@
 ---
 name: False Negative Report
-about: pacsec missed a malicious or vulnerable package
+about: packsec missed a malicious or vulnerable package
 labels: false-negative
 ---
 
@@ -9,13 +9,13 @@ labels: false-negative
 - Version: 
 
 ## Expected behavior
-<!-- What should pacsec have flagged? -->
+<!-- What should packsec have flagged? -->
 
 ## Evidence
 <!-- Link to advisory, CVE, blog post, or analysis -->
 
 ## Scan output
-<!-- Paste the output of: npx pacsec <package> --json -->
+<!-- Paste the output of: npx packsec <package> --json -->
 ```json
 
 ```

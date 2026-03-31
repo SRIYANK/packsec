@@ -1,6 +1,6 @@
 ---
 name: False Positive Report
-about: pacsec blocked a package you believe is safe
+about: packsec blocked a package you believe is safe
 labels: false-positive
 ---
 
@@ -9,7 +9,7 @@ labels: false-positive
 - Version: 
 
 ## Scan output
-<!-- Paste the output of: npx pacsec <package> --json -->
+<!-- Paste the output of: npx packsec <package> --json -->
 ```json
 
 ```

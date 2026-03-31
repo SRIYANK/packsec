@@ -1,10 +1,10 @@
-# Contributing to pacsec
+# Contributing to packsec
 
 ## Reporting false positives / false negatives
 
-If pacsec incorrectly blocks a safe package or misses a malicious one:
+If packsec incorrectly blocks a safe package or misses a malicious one:
 
-1. Run `npx pacsec <package> --json` to get the full scan output
+1. Run `npx packsec <package> --json` to get the full scan output
 2. Open an issue with the `false-positive` or `false-negative` label
 3. Include the JSON output and explain why you believe the result is wrong
 
@@ -45,9 +45,9 @@ The `src/data/top-1000.json` file is the bundled list used for typosquat detecti
 
 ```bash
 npm run build
-node bin/pacsec.js lodash          # should pass
-node bin/pacsec.js lodasj          # should flag typosquat
-node bin/pacsec.js xyzfakepkg999   # should block (phantom dep)
-node bin/pacsec.js lodash --json   # should output JSON
-node bin/pacsec.js lodash --report # should write markdown report
+node bin/packsec.js lodash          # should pass
+node bin/packsec.js lodasj          # should flag typosquat
+node bin/packsec.js xyzfakepkg999   # should block (phantom dep)
+node bin/packsec.js lodash --json   # should output JSON
+node bin/packsec.js lodash --report # should write markdown report
 ```

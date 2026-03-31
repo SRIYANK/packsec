@@ -50,15 +50,14 @@ function loadConfig(): Config {
     offline: false,
   };
 
-  const rcPath = resolve(process.cwd(), ".pacsec.json");
+  const rcPath = resolve(process.cwd(), ".packsec.json");
   if (existsSync(rcPath)) {
-    return { ...defaults, ...JSON.parse(readFileSync(rcPath, "utf-8")) };
-  }
+    return { ...defaults, ...JSON.parse(readFileSync(rcPath, "utf-8")) };  }
 
   const pkgPath = resolve(process.cwd(), "package.json");
   if (existsSync(pkgPath)) {
     const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
-    if (pkg["pacsec"]) return { ...defaults, ...pkg["pacsec"] };
+    if (pkg["packsec"]) return { ...defaults, ...pkg["packsec"] };
   }
 
   return defaults;
@@ -172,7 +171,7 @@ async function analyzePackage(
       flags: [],
       checks: [{
         name: "Allowlist",
-        source: "Local config (.pacsec.json or package.json)",
+        source: "Local config (.packsec.json or package.json)",
         passed: true,
         detail: `"${packageName}" is on your allow list — all checks skipped`,
         durationMs: 0,
@@ -198,7 +197,7 @@ async function analyzePackage(
       }],
       checks: [{
         name: "Denylist",
-        source: "Local config (.pacsec.json or package.json)",
+        source: "Local config (.packsec.json or package.json)",
         passed: false,
         detail: `"${packageName}" matched deny list entry — blocked`,
         durationMs: 0,
@@ -338,7 +337,7 @@ function renderBlocked(results: PackageResult[]): void {
   }
   console.error(`\n  ${border}`);
   console.error(`  To install anyway (not recommended):`);
-  console.error(`    PACSEC_SKIP=1 npm install <pkg>`);
+  console.error(`    PACKSEC_SKIP=1 npm install <pkg>`);
   console.error(`\n  Think this is wrong? Report it:`);
   console.error(`    ${REPO_URL}/issues/new`);
   console.error();
@@ -473,11 +472,11 @@ function readDepsFromPackageJson(): string[] {
     // Combine and dedupe, attach version ranges
     const all: string[] = [];
     for (const [name, range] of Object.entries(pkg.dependencies ?? {} as Record<string, string>)) {
-      if (name === "packsec" || name === "@sriyank/pacsec") continue; // Don't scan ourselves
+      if (name === "packsec" || name === "@sriyank/packsec") continue; // Don't scan ourselves
       all.push(`${name}@${range}`);
     }
     for (const [name, range] of Object.entries(pkg.devDependencies ?? {} as Record<string, string>)) {
-      if (name === "packsec" || name === "@sriyank/pacsec") continue;
+      if (name === "packsec" || name === "@sriyank/packsec") continue;
       if (!all.some((a) => a.startsWith(`${name}@`))) {
         all.push(`${name}@${range}`);
       }
@@ -491,7 +490,7 @@ function readDepsFromPackageJson(): string[] {
 // ─────────────────────────── Main ─────────────────────────────────
 
 async function main(): Promise<void> {
-  if (process.env.PACSEC_SKIP === "1") {
+  if (process.env.PACKSEC_SKIP === "1") {
     process.exit(0);
   }
 
@@ -559,7 +558,7 @@ async function main(): Promise<void> {
   // Report mode — write markdown file
   if (cli.report) {
     const markdown = generateReportMarkdown(results);
-    const reportPath = resolve(process.cwd(), "pacsec-report.md");
+    const reportPath = resolve(process.cwd(), "packsec-report.md");
     writeFileSync(reportPath, markdown, "utf-8");
     console.log(`  📄  Report saved to: ${reportPath}\n`);
   }

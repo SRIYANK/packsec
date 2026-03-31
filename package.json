@@ -20,7 +20,7 @@
     "guard"
   ],
   "bin": {
-    "pacsec": "bin/pacsec.js"
+    "packsec": "bin/packsec.js"
   },
   "main": "./dist/index.js",
   "files": [

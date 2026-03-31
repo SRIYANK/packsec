@@ -56,9 +56,9 @@ npm install --save-dev packsec
 ```json
 {
   "scripts": {
-    "preinstall": "pacsec"
+    "preinstall": "packsec"
   },
-  "pacsec": {
+  "packsec": {
     "blockOn": "high",
     "maxAgeHours": 24
   }
@@ -72,7 +72,7 @@ npm install --save-dev packsec
 Every scan gives you the full picture — even when everything passes:
 
 ```
-  🛡  pacsec — scanning 1 package(s)
+  🛡  packsec — scanning 1 package(s)
 
   ────────────────────────────────────────────────────────────
   ✅  lodash@latest → 4.17.23
@@ -110,7 +110,7 @@ Every scan gives you the full picture — even when everything passes:
 When something is wrong, you see exactly why:
 
 ```
-  🚨  INSTALLATION BLOCKED  —  pacsec
+  🚨  INSTALLATION BLOCKED  —  packsec
 
   Package:  xyzfakepkg@latest
   Risk:     HIGH (40/100)
@@ -119,7 +119,7 @@ When something is wrong, you see exactly why:
       ↳ This package was never published — possible phantom dependency attack
 
   To install anyway (not recommended):
-    PACSEC_SKIP=1 npm install <pkg>
+    PACKSEC_SKIP=1 npm install <pkg>
 ```
 
 ---
@@ -133,14 +133,14 @@ npx packsec <packages...> [flags]
 | Flag | What it does |
 |---|---|
 | `--json` | Full results as JSON — pipe it into CI |
-| `--report` | Save a markdown audit trail to `pacsec-report.md` |
+| `--report` | Save a markdown audit trail to `packsec-report.md` |
 | `--community` | Pull community allow/deny lists from GitHub |
 
 ---
 
 ## Configuration
 
-Add to `package.json` under `"pacsec"` key, or create `.pacsec.json`:
+Add to `package.json` under `"packsec"` key, or create `.packsec.json`:
 
 | Field | Default | Description |
 |---|---|---|
@@ -210,7 +210,7 @@ npm ls --all
 When you know what you're doing and need to bypass:
 
 ```bash
-PACSEC_SKIP=1 npm install <pkg>
+PACKSEC_SKIP=1 npm install <pkg>
 ```
 
 ---
