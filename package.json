@@ -1,11 +1,11 @@
 {
   "name": "packsec",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Lightweight npm supply chain security guard",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SRIYANK/packsec.git"
+    "url": "git+https://github.com/SRIYANK/packsec.git"
   },
   "homepage": "https://github.com/SRIYANK/packsec",
   "keywords": [
