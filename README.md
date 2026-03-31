@@ -136,7 +136,7 @@ Or configure it permanently:
 ```json
 {
   "pacsec": {
-    "communityRulesUrl": "https://raw.githubusercontent.com/user/pacsec/main/community-rules.json"
+    "communityRulesUrl": "https://raw.githubusercontent.com/SRIYANK/pacsec/main/community-rules.json"
   }
 }
 ```
