@@ -1,9 +1,9 @@
-# 🛡️ pacsec
+# 🛡️ packsec
 
 **Vibe-coded or not, your `npm install` deserves a bodyguard.**
 
-[![npm](https://img.shields.io/npm/v/@sriyank/pacsec)](https://www.npmjs.com/package/@sriyank/pacsec)
-[![license](https://img.shields.io/npm/l/@sriyank/pacsec)](LICENSE)
+[![npm](https://img.shields.io/npm/v/packsec)](https://www.npmjs.com/package/packsec)
+[![license](https://img.shields.io/npm/l/packsec)](LICENSE)
 
 ---
 
@@ -15,7 +15,7 @@ But here's the thing — attackers know that. The [axios supply chain attack](ht
 
 If you're vibe coding — letting AI write your code, installing packages on instinct, shipping fast — you're moving at a speed where one bad `npm install` can inject malware into your project before you even look at the terminal output.
 
-**pacsec is the 1.5-second sanity check between you and that moment.**
+**packsec is the 1.5-second sanity check between you and that moment.**
 
 It doesn't slow you down. It doesn't need an account. It doesn't phone home. It just asks npm's own registry and Google's OSV database two simple questions: *"Is this package suspiciously new?"* and *"Is it known to be malicious?"* — and blocks the install if the answer is yes.
 
@@ -41,13 +41,13 @@ Every check shows its source URL. No black boxes. No "trust us" scores. You see 
 
 ```bash
 # Just run it (zero install)
-npx @sriyank/pacsec axios lodash react
+npx packsec axios lodash react
 
 # Or install globally
-npm install -g @sriyank/pacsec
+npm install -g packsec
 
 # Or per-project (guards the whole team)
-npm install --save-dev @sriyank/pacsec
+npm install --save-dev packsec
 ```
 
 ### Auto-guard every install in a project
@@ -126,7 +126,7 @@ When something is wrong, you see exactly why:
 ## CLI Flags
 
 ```bash
-npx @sriyank/pacsec <packages...> [flags]
+npx packsec <packages...> [flags]
 ```
 
 | Flag | What it does |
@@ -154,16 +154,16 @@ Add to `package.json` under `"pacsec"` key, or create `.pacsec.json`:
 
 ## Community
 
-pacsec is built in the open and stays in the open.
+packsec is built in the open and stays in the open.
 
-**Found a false positive?** When pacsec blocks something it shouldn't, it prints a pre-filled GitHub issue link. One click and the scan data is already in the issue body.
+**Found a false positive?** When packsec blocks something it shouldn't, it prints a pre-filled GitHub issue link. One click and the scan data is already in the issue body.
 
 **Want to improve it?** The entire source is ~500 lines across 6 files. Read it, audit it, fork it, make it better. PRs welcome. If you build something cooler on top of this, that's a win for everyone.
 
 **Community rules:** Opt into shared allow/deny lists maintained by the community:
 
 ```bash
-npx @sriyank/pacsec axios --community
+npx packsec axios --community
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose rule changes, report issues, or contribute code.
@@ -172,11 +172,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose rule changes, report i
 
 ## Audit it yourself
 
-A security tool you can't read is a liability. pacsec is designed to be auditable in under 30 minutes:
+A security tool you can't read is a liability. packsec is designed to be auditable in under 30 minutes:
 
 ```bash
 # Clone and count the lines (~500 across 6 files)
-git clone https://github.com/SRIYANK/pacsec && cd pacsec
+git clone https://github.com/SRIYANK/packsec && cd packsec
 find src -name "*.ts" | xargs wc -l
 
 # Verify all network calls go to trusted public infrastructure only
@@ -199,7 +199,7 @@ npm ls --all
 - **One runtime dependency:** `semver` (npm's own package, 6KB, zero deps)
 - **Three network targets:** `registry.npmjs.org`, `api.osv.dev`, `unpkg.com` — all public, all already trusted by every npm user
 - **Zero telemetry.** Zero accounts. Zero API keys. Zero phone-home. Ever.
-- **Fail-open:** If pacsec itself errors, it warns and lets the install proceed. Tool bugs never block your work.
+- **Fail-open:** If packsec itself errors, it warns and lets the install proceed. Tool bugs never block your work.
 - **Full transparency:** Every check shows its source URL, what was queried, and what came back
 
 ---

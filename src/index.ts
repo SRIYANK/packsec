@@ -255,7 +255,7 @@ const ICONS: Record<Severity, string> = {
   safe: "✅",
 };
 
-const REPO_URL = "https://github.com/SRIYANK/pacsec";
+const REPO_URL = "https://github.com/SRIYANK/packsec";
 
 function renderDetailedResult(result: PackageResult): void {
   const border = "─".repeat(60);
