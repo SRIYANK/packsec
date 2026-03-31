@@ -1,0 +1,29 @@
+{
+  "name": "pacsec",
+  "version": "1.0.0",
+  "description": "Lightweight npm supply chain security guard",
+  "bin": {
+    "pacsec": "./bin/pacsec.js"
+  },
+  "main": "./dist/index.js",
+  "files": [
+    "bin/",
+    "dist/",
+    "src/data/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "semver": "^7.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/semver": "^7.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  }
+}
