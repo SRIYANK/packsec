@@ -2,6 +2,9 @@
 
 **Vibe-coded or not, your `npm install` deserves a bodyguard.**
 
+[![npm](https://img.shields.io/npm/v/@sriyank/pacsec)](https://www.npmjs.com/package/@sriyank/pacsec)
+[![license](https://img.shields.io/npm/l/@sriyank/pacsec)](LICENSE)
+
 ---
 
 ## Why this exists
@@ -38,13 +41,13 @@ Every check shows its source URL. No black boxes. No "trust us" scores. You see 
 
 ```bash
 # Just run it (zero install)
-npx pacsec axios lodash react
+npx @sriyank/pacsec axios lodash react
 
 # Or install globally
-npm install -g pacsec
+npm install -g @sriyank/pacsec
 
 # Or per-project (guards the whole team)
-npm install --save-dev pacsec
+npm install --save-dev @sriyank/pacsec
 ```
 
 ### Auto-guard every install in a project
@@ -123,7 +126,7 @@ When something is wrong, you see exactly why:
 ## CLI Flags
 
 ```bash
-npx pacsec <packages...> [flags]
+npx @sriyank/pacsec <packages...> [flags]
 ```
 
 | Flag | What it does |
@@ -160,7 +163,7 @@ pacsec is built in the open and stays in the open.
 **Community rules:** Opt into shared allow/deny lists maintained by the community:
 
 ```bash
-npx pacsec axios --community
+npx @sriyank/pacsec axios --community
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose rule changes, report issues, or contribute code.
