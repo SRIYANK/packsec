@@ -2,8 +2,9 @@
 
 **Vibe-coded or not, your `npm install` deserves a bodyguard.**
 
-[![npm](https://img.shields.io/npm/v/packsec)](https://www.npmjs.com/package/packsec)
-[![license](https://img.shields.io/npm/l/packsec)](LICENSE)
+[![npm](https://img.shields.io/npm/v/packsec?color=crimson&label=npm)](https://www.npmjs.com/package/packsec)
+[![downloads](https://img.shields.io/npm/dm/packsec?color=blue)](https://www.npmjs.com/package/packsec)
+[![license](https://img.shields.io/github/license/SRIYANK/packsec)](LICENSE)
 
 ---
 
