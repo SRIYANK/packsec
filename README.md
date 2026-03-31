@@ -1,35 +1,53 @@
 # 🛡️ pacsec
 
-Lightweight npm supply chain security guard. ~500 lines. One dependency. Zero telemetry.
+**Vibe-coded or not, your `npm install` deserves a bodyguard.**
 
-Every check shows exactly what was queried, where, and why — full transparency by default.
+---
 
-## What it does
+## Why this exists
 
-Before `npm install` runs, pacsec checks each package against:
+You're in the zone. The AI just generated the perfect code. You hit `npm install` and 47 packages fly in. You don't read them. Nobody reads them. That's the vibe.
 
-- **Package age** — flags packages created < 24h ago (npm registry)
-- **Dependency diff** — detects newly-introduced deps in version updates
-- **Known malware** — queries OSV.dev (Google-backed, free, no key)
-- **Typosquatting** — offline Levenshtein check against top 1000 packages
-- **Install scripts** — scans postinstall hooks for shell exec, eval, obfuscation
+But here's the thing — attackers know that. The [axios supply chain attack](https://socket.dev/blog/axios-maintainer-account-compromised) worked because a compromised maintainer account pushed a new version with a brand new dependency that ran `execSync` in a postinstall script. It was live for hours. Thousands of installs. Nobody checked.
 
-All checks hit npm's own registry and OSV.dev only. No proprietary backend. No API key.
+If you're vibe coding — letting AI write your code, installing packages on instinct, shipping fast — you're moving at a speed where one bad `npm install` can inject malware into your project before you even look at the terminal output.
+
+**pacsec is the 1.5-second sanity check between you and that moment.**
+
+It doesn't slow you down. It doesn't need an account. It doesn't phone home. It just asks npm's own registry and Google's OSV database two simple questions: *"Is this package suspiciously new?"* and *"Is it known to be malicious?"* — and blocks the install if the answer is yes.
+
+~500 lines of TypeScript. One dependency. You can read the entire thing during a coffee break.
+
+---
+
+## What it checks
+
+| Check | What it catches | Source |
+|---|---|---|
+| Package age | Packages created < 24h ago | `registry.npmjs.org` |
+| Dependency diff | New deps sneaked into version updates | `registry.npmjs.org` |
+| Known malware/CVEs | Flagged packages in OSV database | `api.osv.dev` |
+| Typosquatting | `lodasj` instead of `lodash` | Bundled top-1000 list (offline) |
+| Install scripts | `execSync`, `eval`, obfuscation in postinstall | `registry.npmjs.org` + `unpkg.com` |
+
+Every check shows its source URL. No black boxes. No "trust us" scores. You see exactly what was queried and what came back.
+
+---
 
 ## Install
 
 ```bash
-# Option 1: npx (zero install)
+# Just run it (zero install)
 npx pacsec axios lodash react
 
-# Option 2: global
+# Or install globally
 npm install -g pacsec
 
-# Option 3: per-project
+# Or per-project (guards the whole team)
 npm install --save-dev pacsec
 ```
 
-## Per-project setup
+### Auto-guard every install in a project
 
 ```json
 {
@@ -43,11 +61,15 @@ npm install --save-dev pacsec
 }
 ```
 
-## Output
+---
 
-Every scan shows a detailed breakdown of all checks performed, even for passing packages:
+## What you see
+
+Every scan gives you the full picture — even when everything passes:
 
 ```
+  🛡  pacsec — scanning 1 package(s)
+
   ────────────────────────────────────────────────────────────
   ✅  lodash@latest → 4.17.23
   ────────────────────────────────────────────────────────────
@@ -62,7 +84,7 @@ Every scan shows a detailed breakdown of all checks performed, even for passing 
 
     ✅  Dependency Diff
        Source:  https://registry.npmjs.org/lodash
-       Result:  Compared lodash@4.17.21 → @4.17.23: no new deps. 0 deps total.
+       Result:  Compared lodash@4.17.21 → @4.17.23: no new deps.
        Time:    114ms
 
     ✅  Known Vulnerabilities (OSV)
@@ -81,17 +103,22 @@ Every scan shows a detailed breakdown of all checks performed, even for passing 
        Time:    636ms
 ```
 
-When something is blocked, you see exactly why with full source links:
+When something is wrong, you see exactly why:
 
 ```
-  ❌  Package Existence
-     Source:  https://registry.npmjs.org/xyzfakepkg
-     Result:  "xyzfakepkg" returned 404 — not found in npm registry
+  🚨  INSTALLATION BLOCKED  —  pacsec
 
-  Issues found (1):
-    🔴  [CRITICAL] "xyzfakepkg" does not exist in the npm registry
-       ↳ This package was never published — possible phantom dependency attack
+  Package:  xyzfakepkg@latest
+  Risk:     HIGH (40/100)
+
+    • "xyzfakepkg" does not exist in the npm registry
+      ↳ This package was never published — possible phantom dependency attack
+
+  To install anyway (not recommended):
+    PACSEC_SKIP=1 npm install <pkg>
 ```
+
+---
 
 ## CLI Flags
 
@@ -99,57 +126,13 @@ When something is blocked, you see exactly why with full source links:
 npx pacsec <packages...> [flags]
 ```
 
-| Flag | Description |
+| Flag | What it does |
 |---|---|
-| `--json` | Output full results as JSON (for CI/CD pipelines) |
-| `--report` | Save a markdown report to `pacsec-report.md` |
-| `--community` | Merge community allow/deny lists from GitHub |
-| `-v, --verbose` | (Reserved for future use) |
+| `--json` | Full results as JSON — pipe it into CI |
+| `--report` | Save a markdown audit trail to `pacsec-report.md` |
+| `--community` | Pull community allow/deny lists from GitHub |
 
-## JSON Output
-
-```bash
-npx pacsec axios --json
-```
-
-Returns structured JSON with every check, source, timing, and flag — ready for CI integration.
-
-## Markdown Report
-
-```bash
-npx pacsec axios lodash --report
-```
-
-Generates `pacsec-report.md` with a full audit trail — useful for compliance and code review.
-
-## Community Input
-
-pacsec supports community-maintained allow/deny lists:
-
-```bash
-# Use community rules alongside your local config
-npx pacsec axios --community
-```
-
-Or configure it permanently:
-
-```json
-{
-  "pacsec": {
-    "communityRulesUrl": "https://raw.githubusercontent.com/SRIYANK/pacsec/main/community-rules.json"
-  }
-}
-```
-
-### Reporting false positives / negatives
-
-When pacsec blocks a package, it prints a pre-filled GitHub issue URL. Click it to report a false positive with all scan data included.
-
-You can also:
-- Open an issue with the `false-positive` or `false-negative` label
-- Propose community rule changes via PR to `community-rules.json`
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+---
 
 ## Configuration
 
@@ -161,23 +144,78 @@ Add to `package.json` under `"pacsec"` key, or create `.pacsec.json`:
 | `maxAgeHours` | `24` | Flag packages newer than N hours |
 | `allowList` | `[]` | Skip checks for these packages |
 | `denyList` | `[]` | Always block these packages |
-| `offline` | `false` | Skip network checks, use bundled data only |
-| `communityRulesUrl` | — | URL to fetch shared community rules |
+| `offline` | `false` | Skip network checks, bundled data only |
+| `communityRulesUrl` | — | URL to shared community rules JSON |
+
+---
+
+## Community
+
+pacsec is built in the open and stays in the open.
+
+**Found a false positive?** When pacsec blocks something it shouldn't, it prints a pre-filled GitHub issue link. One click and the scan data is already in the issue body.
+
+**Want to improve it?** The entire source is ~500 lines across 6 files. Read it, audit it, fork it, make it better. PRs welcome. If you build something cooler on top of this, that's a win for everyone.
+
+**Community rules:** Opt into shared allow/deny lists maintained by the community:
+
+```bash
+npx pacsec axios --community
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose rule changes, report issues, or contribute code.
+
+---
+
+## Audit it yourself
+
+A security tool you can't read is a liability. pacsec is designed to be auditable in under 30 minutes:
+
+```bash
+# Clone and count the lines (~500 across 6 files)
+git clone https://github.com/SRIYANK/pacsec && cd pacsec
+find src -name "*.ts" | xargs wc -l
+
+# Verify all network calls go to trusted public infrastructure only
+grep -r "fetch(" src/
+# You'll see: registry.npmjs.org, api.osv.dev, unpkg.com — nothing else
+
+# Verify zero telemetry
+grep -r "telemetry\|analytics\|beacon\|track" src/
+# Returns nothing
+
+# Check the full dependency tree
+npm ls --all
+# semver — that's it
+```
+
+---
+
+## Trust model
+
+- **One runtime dependency:** `semver` (npm's own package, 6KB, zero deps)
+- **Three network targets:** `registry.npmjs.org`, `api.osv.dev`, `unpkg.com` — all public, all already trusted by every npm user
+- **Zero telemetry.** Zero accounts. Zero API keys. Zero phone-home. Ever.
+- **Fail-open:** If pacsec itself errors, it warns and lets the install proceed. Tool bugs never block your work.
+- **Full transparency:** Every check shows its source URL, what was queried, and what came back
+
+---
 
 ## Emergency override
+
+When you know what you're doing and need to bypass:
 
 ```bash
 PACSEC_SKIP=1 npm install <pkg>
 ```
 
-## Trust model
-
-- One runtime dependency: `semver` (npm's own, 6KB, zero deps)
-- Network calls go to: `registry.npmjs.org`, `api.osv.dev`, `unpkg.com`
-- Zero telemetry. Zero accounts. Zero API keys.
-- Fail-open: tool errors never block installs
-- Every check shows its source URL — verify anything yourself
+---
 
 ## License
 
-MIT
+MIT — do whatever you want with it.
+
+---
+
+*Built because vibe coding shouldn't mean vibe trusting.*
+*If this saves even one person from a supply chain attack, it was worth building.*
